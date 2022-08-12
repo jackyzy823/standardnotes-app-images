@@ -1,9 +1,19 @@
 # standardnotes-web-image
 Provide standardnotes/web docker image
 
-**In this repo, The workflow of build-and-push task is manually triggered with user inputed standardnotes/web's version.**
+**Note: Since there's no CSP header in HTTP response of this image, use it under your own risk.**
+
+
+## Why
+
+Since standardnotes use static-web hosting on S3 and Cloudfront instead of using `standardnotes/web` docker image (Ruby-On-Rails based web server), so there's no `standardnotes/web` docker image anymore.
+
+However the static web do not support configure sync server url and other settings. For self-hosters, we need a docker image which is configurable.
+
 
 ## Build
+
+**In this repo, The workflow of build-and-push task is manually triggered with user inputed standardnotes/web's version.**
 
 You can also build it yourself with Buildkit.
 
@@ -28,7 +38,7 @@ Docker Build Arguments:
 
 2. Buildkit not supported/ Heredoc syntax not supported
 
-    create a `40-standardnotes-app-envsubst.sh` which content is the string between `EOF` and `chmod +x 40-standardnotes-app-envsubst.sh` and then replace `COPY <<EOF ... EOF` to  `COPY 40-standardnotes-app-envsubst.sh /docker-entrypoint.d/` and delete `RUN  chmod +x ...` and delete the first line  `# syntax=docker/dockerfile:1.4` , then `docker build --build-arg STANDARDNOTES_WEB_VERSION=3.x.x -f ./Dockerfile .`
+    create a `40-standardnotes-app-envsubst.sh` which content is the string between two `EOF`s , then `chmod +x 40-standardnotes-app-envsubst.sh` and then replace `COPY <<EOF ... EOF` to  `COPY 40-standardnotes-app-envsubst.sh /docker-entrypoint.d/` and delete `RUN  chmod +x ...` and delete the first line  `# syntax=docker/dockerfile:1.4` , then `docker build --build-arg STANDARDNOTES_WEB_VERSION=3.x.x -f ./Dockerfile .`
 
 
 
