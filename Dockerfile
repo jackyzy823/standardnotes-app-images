@@ -16,13 +16,15 @@ sed -i 's|window.enabledUnfinishedFeatures = false;|window.enabledUnfinishedFeat
 sed -i 's|window.websocketUrl = "wss://sockets.standardnotes.com";|window.websocketUrl = "$WEBSOCKET_URL";|' packages/web/dist/index.html && \
 sed -i 's|window.purchaseUrl = "https://standardnotes.com/purchase";|window.purchaseUrl = "$PURCHASE_URL";|' packages/web/dist/index.html && \
 sed -i 's|window.plansUrl = "https://standardnotes.com/plans";|window.plansUrl = "$PLANS_URL";|' packages/web/dist/index.html && \
-sed -i 's|window.dashboardUrl = "https://standardnotes.com/dashboard";|window.dashboardUrl = "$DASHBOARD_URL";|' packages/web/dist/index.html &&\
-mv packages/web/dist/index.html  packages/web/dist/index.html.template
+sed -i 's|window.dashboardUrl = "https://standardnotes.com/dashboard";|window.dashboardUrl = "$DASHBOARD_URL";|' packages/web/dist/index.html && \
+mv packages/web/dist/index.html  packages/web/dist/index.html.template && \
+sed -i 's|https://app.standardnotes.com|$APP_HOST|' packages/web/dist/manifest.webmanifest && \
+mv packages/web/dist/manifest.webmanifest packages/web/dist/manifest.webmanifest.template
 
 FROM nginx:alpine
 COPY --from=builder /app/packages/web/dist  /usr/share/nginx/html
 ## If you encouting issue with Heredoc , you can create a 40-standardnotes-app-envsubst.sh and chmod +x 40-standardnotes-app-envsubst.sh and then COPY 40-standardnotes-app-envsubst.sh /docker-entrypoint.d/
 COPY <<EOF   /docker-entrypoint.d/40-standardnotes-app-envsubst.sh
-envsubst '\$APP_HOST,\$DEFAULT_SYNC_SERVER,\$DEFAULT_FILES_HOST,\$ENABLE_UNFINISHED_FEATURES,\$WEBSOCKET_URL,\$PURCHASE_URL,\$PLANS_URL,\$DASHBOARD_URL' < /usr/share/nginx/html/index.html.template > /usr/share/nginx/html/index.html && rm /usr/share/nginx/html/index.html.template
+envsubst '\$APP_HOST,\$DEFAULT_SYNC_SERVER,\$DEFAULT_FILES_HOST,\$ENABLE_UNFINISHED_FEATURES,\$WEBSOCKET_URL,\$PURCHASE_URL,\$PLANS_URL,\$DASHBOARD_URL' < /usr/share/nginx/html/index.html.template > /usr/share/nginx/html/index.html && rm /usr/share/nginx/html/index.html.template && envsubst '\$APP_HOST' < /usr/share/nginx/html/manifest.webmanifest.template > /usr/share/nginx/html/manifest.webmanifest && rm /usr/share/nginx/html/manifest.webmanifest.template
 EOF
 RUN chmod +x /docker-entrypoint.d/40-standardnotes-app-envsubst.sh
