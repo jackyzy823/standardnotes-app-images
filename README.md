@@ -13,7 +13,7 @@ However the static web do not support configure sync server url and other settin
 
 ## Build
 
-**In this repo, The workflow of build-and-push task is manually triggered with user inputed standardnotes/web's version.**
+**In this repo, The workflow of build-and-push task is manually triggered with user inputed standardnotes/web's version and weekly based schedule triggered with automatically fetching the latest standardnotes/web's version.**
 
 You can also build it yourself with Buildkit.
 
