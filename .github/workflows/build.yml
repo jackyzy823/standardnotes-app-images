@@ -3,7 +3,8 @@ name: Build StandardNotes/web docker image and push to ghcr.io
 on:
   schedule:
     # to not abuse Github Action, only once a week , maybe once biweek?
-    - cron: '35 11 * * 1'
+    # Note: schedule is not guaranteed https://upptime.js.org/blog/2021/01/22/github-actions-schedule-not-working/ 
+    - cron: '20 3 * * 2'
   workflow_dispatch:
     inputs:
       version:
@@ -42,10 +43,12 @@ jobs:
         #if: "${{ inputs.version == '' }}"
         run: echo ::set-output name=version::$(curl 'https://api.github.com/repos/standardnotes/app/git/matching-refs/tags/@standardnotes/web@' |jq -r 'last | .ref | split("@") |last')
       - name: Check Tag if exists
+        id: check
         # https://stackoverflow.com/questions/32113330/check-if-imagetag-combination-already-exists-on-docker-hub
         # and swap the return code
-        run: docker manifest inspect ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.PACKAGE }}:${{ inputs.version || steps.cron.outputs.version }} > /dev/null && exit 1 || exit 0 
+        run: docker manifest inspect ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.PACKAGE }}:${{ inputs.version || steps.cron.outputs.version }} > /dev/null && echo ::set-output name=exists::1 || echo ::set-output name=exists::0
       - name: Build and push
+        if: ${{ steps.check.outputs.exists == '0' }}
         uses: docker/build-push-action@v2
         with:
           context: .
