@@ -3,7 +3,9 @@
 ## Build with  DOCKER_BUILDKIT=1 docker build --build-arg STANDARDNOTES_WEB_VERSION=3.x.x
 FROM alpine:latest as builder
 ARG STANDARDNOTES_WEB_VERSION
-RUN apk --no-cache add git yarn && git clone https://github.com/standardnotes/app -b @standardnotes/web@${STANDARDNOTES_WEB_VERSION} --depth=1
+# since alpine(3.17) update nodejs version (v18.12) , but node-sass (old version 6.0.1) do not have binary release which matching that NODE_MODULE_VERSION
+# so it need to be built from scratch which requiring Python make and g++ OR just old alpine like 3.16
+RUN apk --no-cache add git yarn python3 make g++ && git clone https://github.com/standardnotes/app -b @standardnotes/web@${STANDARDNOTES_WEB_VERSION} --depth=1
 
 WORKDIR /app
 ## Uncomment following line if encounting Javascript Heap Overflow
