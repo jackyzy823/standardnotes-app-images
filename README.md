@@ -1,6 +1,10 @@
 # standardnotes-web-image
 Provide standardnotes/web docker image
 
+**Note: Although they claim [this](https://github.com/standardnotes/self-hosted/issues/116)(and lock the thread LOL) and [this](https://standardnotes.com/blog/making-self-hosting-easy-for-all) (Yes, you're secure, but what if you go out of business. Meme here: there's no cloud , just SOMEBODY ELSE'S COMPUTER ), Those who self-hosting client-side part(like web) ought to be ABLE TO USE the full range of client-side features. So I modified the javascript part (isThirdPartyHostUsed function) to bypass client-side check (Available after 3.147.0). Thank you standardnotes BUT F\*\*K YOU.**
+
+
+
 **Note: Since there's no CSP header in HTTP response of this image, use it under your own risk.**
 
 
