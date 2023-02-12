@@ -1,21 +1,36 @@
-# standardnotes-web-image
-Provide standardnotes/web docker image
+# standardnotes-app-images
+Provide custom build of standardnotes client side image/binaries.
+
+1. Docker image for standardnotes web
+2. Android APK for standardnotes mobile
+3. [TODO] ASAR file for Desktop version
+
+Will not provide iOS related binaries.
 
 **Note: Although they claim [this](https://github.com/standardnotes/self-hosted/issues/116)(and lock the thread LOL) and [this](https://standardnotes.com/blog/making-self-hosting-easy-for-all) (Yes, you're secure, but what if you go out of business. Meme here: there's no cloud , just SOMEBODY ELSE'S COMPUTER ), Those who self-hosting client-side part(like web) ought to be ABLE TO USE the full range of client-side features. So I modified the javascript part (isThirdPartyHostUsed function) to bypass client-side check (Available after 3.147.0). Thank you standardnotes BUT F\*\*K YOU.**
 
 
+## Readme for android apk
+
+I modified `isThirdPartyHostUsed` function and built apk with a [public shared](https://ask.dcloud.net.cn/article/36522) [android certificate](https://download.dcloud.net.cn/keystore/Test.keystore) (alias: "android" key-password: 123456 keystore-password: 123456) (so you can build and update your own apk seamlessly). 
+
+And also since it is a public shared certificate, use it under your own risk (for example: attacked by sharedUserId mechanism).
+
+The APK's versionCode is based on unixtimestamp / 60, basically you'll not encounter downgrade issue.
+
+
+## Readme for web image
 
 **Note: Since there's no CSP header in HTTP response of this image, use it under your own risk.**
 
-
-## Why
+### Why
 
 Since standardnotes use static-web hosting on S3 and Cloudfront instead of using `standardnotes/web` docker image (Ruby-On-Rails based web server), so there's no `standardnotes/web` docker image anymore.
 
 However the static web do not support configure sync server url and other settings. For self-hosters, we need a docker image which is configurable.
 
 
-## Build
+### Build
 
 **In this repo, The workflow of build-and-push task is manually triggered with user inputed standardnotes/web's version and weekly based schedule triggered with automatically fetching the latest standardnotes/web's version.**
 
@@ -34,7 +49,7 @@ Docker Build Arguments:
 
 `STANDARDNOTES_WEB_VERSION`: the standardnote/web [tag](https://github.com/standardnotes/app/tags) version (example @standardnotes/web@3.44.3 -> 3.44.3)
 
-### FAQ:
+#### FAQ:
 
 1. Javascript Heap Overflow
 
@@ -46,7 +61,7 @@ Docker Build Arguments:
 
 
 
-## Usage
+### Usage
 
 Runtime environments (same from .env.sample):
 
