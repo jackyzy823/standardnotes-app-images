@@ -60,6 +60,10 @@ jobs:
         ## A minute-based number is reasonable. 
         run: sed -i -e "s|version = .*|version = Time.now.getutc.to_i / 60|"  -e "/upload_to_play_store/,/)$/d"  -e  "s/app-#{variant}-release.apk/standardnotes-mod-#{ENV['PACKAGE_VERSION']}-#{versionCode}.apk/"  fastlane/Fastfile
 
+      - name: Adjust minSdk
+        working-directory: packages/mobile
+        run: sed -i  "s/minSdkVersion = .*/minSdkVersion = 21/" android/build.gradle
+
       - name: fastlane
         id: build
         uses: maierj/fastlane-action@v1.4.0
