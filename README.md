@@ -18,6 +18,7 @@ And also since it is a public shared certificate, use it under your own risk (fo
 
 The APK's versionCode is based on unixtimestamp / 60, basically you'll not encounter downgrade issue.
 
+Adjust minsdk version from 28 to 21 for old devices.
 
 ## Readme for web image
 
