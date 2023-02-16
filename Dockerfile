@@ -27,7 +27,8 @@ mv packages/web/dist/manifest.webmanifest packages/web/dist/manifest.webmanifest
 FROM nginx:alpine
 COPY --from=builder /app/packages/web/dist  /usr/share/nginx/html
 ## If you encouting issue with Heredoc , you can create a 40-standardnotes-app-envsubst.sh and chmod +x 40-standardnotes-app-envsubst.sh and then COPY 40-standardnotes-app-envsubst.sh /docker-entrypoint.d/
+## To avoid keep restaring when restart this container. do envsubst only when template file exists.
 COPY <<EOF   /docker-entrypoint.d/40-standardnotes-app-envsubst.sh
-envsubst '\$APP_HOST,\$DEFAULT_SYNC_SERVER,\$DEFAULT_FILES_HOST,\$ENABLE_UNFINISHED_FEATURES,\$WEBSOCKET_URL,\$PURCHASE_URL,\$PLANS_URL,\$DASHBOARD_URL' < /usr/share/nginx/html/index.html.template > /usr/share/nginx/html/index.html && rm /usr/share/nginx/html/index.html.template && envsubst '\$APP_HOST' < /usr/share/nginx/html/manifest.webmanifest.template > /usr/share/nginx/html/manifest.webmanifest && rm /usr/share/nginx/html/manifest.webmanifest.template
+( [[ -f /usr/share/nginx/html/index.html.template ]] && envsubst '\$APP_HOST,\$DEFAULT_SYNC_SERVER,\$DEFAULT_FILES_HOST,\$ENABLE_UNFINISHED_FEATURES,\$WEBSOCKET_URL,\$PURCHASE_URL,\$PLANS_URL,\$DASHBOARD_URL' < /usr/share/nginx/html/index.html.template > /usr/share/nginx/html/index.html && rm /usr/share/nginx/html/index.html.template ); ( [[ -f /usr/share/nginx/html/manifest.webmanifest.template ]] &&  envsubst '\$APP_HOST' < /usr/share/nginx/html/manifest.webmanifest.template > /usr/share/nginx/html/manifest.webmanifest && rm /usr/share/nginx/html/manifest.webmanifest.template ); exit 0
 EOF
 RUN chmod +x /docker-entrypoint.d/40-standardnotes-app-envsubst.sh
