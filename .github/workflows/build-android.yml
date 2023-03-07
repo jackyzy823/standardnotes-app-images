@@ -47,6 +47,12 @@ jobs:
 
       - name: Ruby Setup for Fastlane
         uses: ruby/setup-ruby@v1
+        ## bug introduced in https://github.com/standardnotes/app/commit/fb7cc1049f6c13c4db7e205e33add07e91705c7b#diff-7d36314a17acc327c7c2e70bb8e0ff972ecda9330e360d388f97a2c4e120cdee
+        ## fixed (using `with`) in https://github.com/standardnotes/app/commit/e3a3b859c1ac3441725ef1504bc3df9a2646385d
+        ## generally fixed in https://github.com/standardnotes/app/commit/a307e8a28cfbe10da0bcec5417079b7ec30c99b7
+        ## but we still follow its' action file
+        with:
+          working-directory: 'packages/mobile'
 
       # Found here https://ask.dcloud.net.cn/article/36522
       # https://download.dcloud.net.cn/keystore/Test.keystore
