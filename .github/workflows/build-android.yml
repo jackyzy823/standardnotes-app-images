@@ -47,6 +47,8 @@ jobs:
 
       - name: Ruby Setup for Fastlane
         uses: ruby/setup-ruby@v1
+        with:
+          working-directory: 'packages/mobile'
 
       # Found here https://ask.dcloud.net.cn/article/36522
       # https://download.dcloud.net.cn/keystore/Test.keystore
