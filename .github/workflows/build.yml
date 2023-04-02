@@ -54,7 +54,7 @@ jobs:
           build-args: STANDARDNOTES_WEB_VERSION=${{ inputs.version || steps.cron.outputs.version }}
           platforms: linux/amd64
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.PACKAGE }}:${{ inputs.version || steps.cron.outputs.version }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.PACKAGE }}:${{ inputs.version || steps.cron.outputs.version }},${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.PACKAGE }}:latest
       # TODO: cleanup old image
       #  keep last 2
       # Get tags -> curl -H "Authorization: Bearer " https://${{ env.REGISTRY }}/v2/${{ github.repository_owner }}/${{ env.PACKAGE }}/tags/list | jq -r "del( .tags [-2:] ) | .tags[]" | xargs -n 1   curl -H "Authorization: Bearer " -X DELETE  https://${{ env.REGISTRY }}/v2/${{ github.repository_owner }}/${{ env.PACKAGE }}/manifests/<digest>
