@@ -7,12 +7,14 @@ Provide custom build of standardnotes client side image/binaries.
 
 Will not provide iOS related binaries.
 
-**Note: Although they claim [this](https://github.com/standardnotes/self-hosted/issues/116)(and lock the thread LOL) and [this](https://standardnotes.com/blog/making-self-hosting-easy-for-all) (Yes, you're secure, but what if you go out of business. Meme here: there's no cloud , just SOMEBODY ELSE'S COMPUTER ), Those who self-hosting client-side part(like web) ought to be ABLE TO USE the full range of client-side features. So I modified the javascript part (isThirdPartyHostUsed function) to bypass client-side check (Available after 3.147.0). Thank you standardnotes BUT F\*\*K YOU.**
+**Note: Although they claim [this](https://github.com/standardnotes/self-hosted/issues/116)(and lock the thread LOL) and [this](https://standardnotes.com/blog/making-self-hosting-easy-for-all) (Yes, you're secure, but what if you go out of business. Meme here: there's no cloud , just SOMEBODY ELSE'S COMPUTER ), Those who self-hosting client-side part(like web) ought to be ABLE TO USE the full range of client-side features. So I modified the javascript part (<del>isThirdPartyHostUsed</del> isUrlFirstParty function) to bypass client-side check (Available after 3.147.0). Thank you standardnotes BUT F\*\*K YOU.**
 
+
+**Note: StandardNotes change the part i modified from 3.169.17, and i haven't updated the corresponding modification. So if you requires modification, don't use image/apk from 3.169.33 to 3.181.1**
 
 ## Readme for android apk
 
-I modified `isThirdPartyHostUsed` function and built apk with a [public shared](https://ask.dcloud.net.cn/article/36522) [android certificate](https://download.dcloud.net.cn/keystore/Test.keystore) (alias: "android" key-password: 123456 keystore-password: 123456) (so you can build and update your own apk seamlessly). 
+I modified <del>`isThirdPartyHostUsed`</del> `isUrlFirstParty`  function and built apk with a [public shared](https://ask.dcloud.net.cn/article/36522) [android certificate](https://download.dcloud.net.cn/keystore/Test.keystore) (alias: "android" key-password: 123456 keystore-password: 123456) (so you can build and update your own apk seamlessly). 
 
 And also since it is a public shared certificate, use it under your own risk (for example: attacked by sharedUserId mechanism).
 
@@ -82,3 +84,7 @@ Since this image is based on nginx:alpine, so all nginx's environments and confi
 Example:
 
 `docker run -p 8080:80 -d -e APP_HOST=https://example.com -e DEFAULT_SYNC_SERVER=https://app.example.com docker pull ghcr.io/jackyzy823/standardnotes-web:3.x.x`
+
+### Docker-compose Example
+
+Please refer to https://github.com/jackyzy823/standardnotes-app-images/issues/3, Thanks @webysther.

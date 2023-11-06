@@ -31,7 +31,8 @@ jobs:
         # https://www.gnu.org/software/sed/manual/html_node/Multiple-commands-syntax.html
         # espically for a,c,i (append/change/insert) : Separate the commands using -e or a newline
         #run: sed -i -e '/isThirdPartyHostUsed/{a \ \ \ \ return false' -e ';n;N;d}' packages/snjs/lib/Services/Api/ApiService.ts
-        run: sed -i '/isThirdPartyHostUsed/a \ \ \ \ return false;' packages/snjs/lib/Services/Api/ApiService.ts
+        #run: sed -i '/isThirdPartyHostUsed/a \ \ \ \ return false;' packages/snjs/lib/Services/Api/ApiService.ts
+        run: sed -i '/private isUrlFirstParty/a \ \ return true;' packages/services/src/Domain/UseCase/IsApplicationUsingThirdPartyHost.ts
 
       - name: Setup react-native kernel and increase watchers
         working-directory: packages/mobile

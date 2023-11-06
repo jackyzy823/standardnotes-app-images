@@ -10,7 +10,7 @@ RUN apk --no-cache add git yarn python3 make g++ && git clone https://github.com
 WORKDIR /app
 ## Uncomment following line if encounting Javascript Heap Overflow
 #ENV NODE_OPTIONS=--max_old_space_size=<SMALLER_MEMSIZE_IN_MB>
-RUN  sed -i '/isThirdPartyHostUsed/a \ \ \ \ return false;' packages/snjs/lib/Services/Api/ApiService.ts && \
+RUN  sed -i '/private isUrlFirstParty/a \ \ return true;' packages/services/src/Domain/UseCase/IsApplicationUsingThirdPartyHost.ts && \
 yarn install --immutable && yarn build:web && \
 sed -i 's|link rel="canonical" href="https://app.standardnotes.com"|link rel="canonical" href="$APP_HOST"|' packages/web/dist/index.html && \
 sed -i 's|window.defaultSyncServer = "https://api.standardnotes.com";|window.defaultSyncServer = "$DEFAULT_SYNC_SERVER";|' packages/web/dist/index.html && \
