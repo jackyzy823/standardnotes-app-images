@@ -5,7 +5,10 @@ FROM alpine:latest as builder
 ARG STANDARDNOTES_WEB_VERSION
 # since alpine(3.17) update nodejs version (v18.12) , but node-sass (old version 6.0.1) do not have binary release which matching that NODE_MODULE_VERSION
 # so it need to be built from scratch which requiring Python make and g++ OR just old alpine like 3.16
-RUN apk --no-cache add git yarn python3 make g++ && git clone https://github.com/standardnotes/app -b @standardnotes/web@${STANDARDNOTES_WEB_VERSION} --depth=1
+# Alpine -> Node 20 -> node-sass 8.0 doesn't support prebuilt binaries for Node 20 -> need to build -> with node-gyp 8.4.1 -> require Python distutil module
+#        -> which is removed in Python 3.12 -> Alpine update Python to 3.12 from 3.11 recently
+# So workaround is apk add py3-setuptools
+RUN apk --no-cache add git yarn python3 make g++ py3-setuptools && git clone https://github.com/standardnotes/app -b @standardnotes/web@${STANDARDNOTES_WEB_VERSION} --depth=1
 
 WORKDIR /app
 ## Uncomment following line if encounting Javascript Heap Overflow
