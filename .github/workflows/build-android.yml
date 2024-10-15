@@ -75,7 +75,8 @@ jobs:
 
       - name: Adjust minSdk
         working-directory: packages/mobile
-        run: sed -i  "s/minSdkVersion = .*/minSdkVersion = 21/" android/build.gradle
+        # update minSdk from 21 to 23 due to react-android-0.75.3's requirement
+        run: sed -i  "s/minSdkVersion = .*/minSdkVersion = 23/" android/build.gradle
 
       - name: fastlane
         id: build
