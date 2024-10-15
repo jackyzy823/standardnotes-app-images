@@ -26,6 +26,12 @@ jobs:
           repository: standardnotes/app
           ref: "@standardnotes/mobile@${{ inputs.version || steps.cron.outputs.version }}"
 
+      - name: Setup Java version
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
       - name: Apply Patch
         # Insert One line and delete 
         # https://www.gnu.org/software/sed/manual/html_node/Multiple-commands-syntax.html
