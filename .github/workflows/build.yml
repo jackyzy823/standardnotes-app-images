@@ -39,7 +39,8 @@ jobs:
         id: cron
         if: github.event.schedule 
         #if: "${{ inputs.version == '' }}"
-        run: echo version=$(curl 'https://api.github.com/repos/standardnotes/app/git/matching-refs/tags/@standardnotes/web@' |jq -r 'last | .ref | split("@") |last')  >> $GITHUB_OUTPUT
+        # Github API don't return by date now, but by ref name in alphabetical order
+        run: echo version=$(curl 'https://api.github.com/repos/standardnotes/app/git/matching-refs/tags/@standardnotes/web@' |jq -r 'sort_by(.ref | split("@") | last | split("-") | first | split(".") | map(tonumber)) | last | .ref | split("@") | last')  >> $GITHUB_OUTPUT
       - name: Check Tag if exists
         id: check
         # https://stackoverflow.com/questions/32113330/check-if-imagetag-combination-already-exists-on-docker-hub
