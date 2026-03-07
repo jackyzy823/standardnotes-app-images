@@ -28,7 +28,7 @@ Adjust minsdk version from 28 to 21 for old devices.
 
 ### Why
 
-Since standardnotes use static-web hosting on S3 and Cloudfront instead of using `standardnotes/web` docker image (Ruby-On-Rails based web server), so there's no `standardnotes/web` docker image anymore.
+Since standardnotes use static-web hosting on S3 and Cloudfront instead of using `standardnotes/web` docker image (Ruby-On-Rails based web server), so there's no `standardnotes/web` docker image anymore. Update: they restored it.
 
 However the static web do not support configure sync server url and other settings. For self-hosters, we need a docker image which is configurable.
 

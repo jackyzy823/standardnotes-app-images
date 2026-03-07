@@ -1,6 +1,10 @@
 # syntax=docker/dockerfile:1.4
 ## Above line is used to support heredoc feature under buildkit
 ## Build with  DOCKER_BUILDKIT=1 docker build --build-arg STANDARDNOTES_WEB_VERSION=3.x.x
+
+## Why not use standardnotes/web as builder
+## because we changed IsApplicationUsingThirdPartyHost.ts and we want a correct source map for that.
+## so we must build from source.
 FROM alpine:latest as builder
 ARG STANDARDNOTES_WEB_VERSION
 # since alpine(3.17) update nodejs version (v18.12) , but node-sass (old version 6.0.1) do not have binary release which matching that NODE_MODULE_VERSION
