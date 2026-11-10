@@ -2,7 +2,7 @@ name: Build Mobile
 
 on:
   schedule:
-    - cron: '20 3 * * 2'
+    - cron: '20 3 9 * *'
   workflow_dispatch:
     inputs:
       version:
@@ -12,7 +12,8 @@ on:
 
 jobs:
   android:
-    runs-on: ubuntu-latest
+    # pin ubuntu version just like https://github.com/standardnotes/app/commit/11432ca3b443f1b520430ac28c70678e0bcfd425 to avoid fastlane ruby version issue.
+    runs-on: ubuntu-24.04
     steps:
       - name: Set version on schedule
         id: cron
@@ -28,7 +29,7 @@ jobs:
           ref: "@standardnotes/mobile@${{ inputs.version || steps.cron.outputs.version }}"
 
       - name: Setup Java version
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: '17'

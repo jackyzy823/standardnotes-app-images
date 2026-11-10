@@ -2,9 +2,9 @@ name: Build StandardNotes/web docker image and push to ghcr.io
 
 on:
   schedule:
-    # to not abuse Github Action, only once a week , maybe once biweek?
+    # to not abuse Github Action, only once a month
     # Note: schedule is not guaranteed https://upptime.js.org/blog/2021/01/22/github-actions-schedule-not-working/ 
-    - cron: '20 3 * * 2'
+    - cron: '20 3 9 * *'
   workflow_dispatch:
     inputs:
       version:
